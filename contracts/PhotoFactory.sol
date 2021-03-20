@@ -16,8 +16,12 @@ contract PhotoFactory is VRFConsumerBase{
 	uint256 public totalBalance;
 	address[] public stakers;
 
+	address public currentMinter;
+
+
 	// maps from address => value of tokens
 	mapping(address => bool) public isStaking;
+	mapping(uint256 => bool) public isRequestId;
 
 	bytes32 internal keyHash;
     uint256 internal fee;
@@ -42,8 +46,25 @@ contract PhotoFactory is VRFConsumerBase{
     {
         keyHash = _keyHash;
         fee = _fee;
+		currentMinter = msg.sender;
     }
 
+    /*
+    1. Make sure that the function caller is the minter
+    2. Mint the NFT with the data provided by the user
+    3. Calls get random number (using the title as the seed) and mods by the total number of people in the pool
+	4. Assign the new minter to the address of the random number
+	5. V2 automatically put it up for auction on opensea
+    */
+    function mint(string _URL, string _title) {
+    	require(msg.sender == currentMinter);
+    	photoNFT.mint(_URL, _title);
+    }
+
+    //V2: TODO: automatically put a token up for aution on opensea
+    function auction(address _tokenAddress){
+
+    }
      /** 
      * Requests randomness from a user-provided seed
      */

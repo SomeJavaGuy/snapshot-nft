@@ -18,6 +18,8 @@ contract PhotoNFT is ERC721 {
   constructor() ERC721("PhotoNFT", "PHOTONFT") public {
   }
 
+  //TODO create the URI and add a base URI function
+
   function mint(string memory _url, string memory _title) public {
 
     //add url
