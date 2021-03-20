@@ -14,7 +14,6 @@ contract PhotoNFT is ERC721 {
   string[] public titles;
   mapping(string => bool) _urlExists;
 
-
   constructor() ERC721("PhotoNFT", "PHOTONFT") public {
   }
 

@@ -7,7 +7,9 @@ import "hardhat/console.sol";
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 //import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
-contract PhotoFactory is VRFConsumerBase{
+contract PhotoFactory is VRFConsumerBase {
+
+    event NewWinner(address winner);
 
 	string public name = "Photo Token Farm";
 	PhotoNFT public photoNFT;
@@ -38,7 +40,8 @@ contract PhotoFactory is VRFConsumerBase{
     constructor(address _vrfCoordinator,
                 address _link,
                 bytes32 _keyHash,
-                uint _fee) 
+                uint _fee,
+                address _photoNFTAddress) 
         VRFConsumerBase(
             _vrfCoordinator, // VRF Coordinator
             _link  // LINK Token
@@ -47,6 +50,7 @@ contract PhotoFactory is VRFConsumerBase{
         keyHash = _keyHash;
         fee = _fee;
 		currentMinter = msg.sender;
+        photoNFT = PhotoNFT(_photoNFTAddress);
     }
 
     /*
@@ -56,15 +60,17 @@ contract PhotoFactory is VRFConsumerBase{
 	4. Assign the new minter to the address of the random number
 	5. V2 automatically put it up for auction on opensea
     */
-    function mint(string _URL, string _title) {
+    function mint(string memory _URL, string memory _title) public {
     	require(msg.sender == currentMinter);
     	photoNFT.mint(_URL, _title);
+        // call get random number
+        requestRandomness(keyHash, fee, 42);
     }
 
     //V2: TODO: automatically put a token up for aution on opensea
-    function auction(address _tokenAddress){
+    // function auction(address _tokenAddress) {
 
-    }
+    // }
      /** 
      * Requests randomness from a user-provided seed
      */
@@ -78,6 +84,9 @@ contract PhotoFactory is VRFConsumerBase{
      */
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
         randomResult = randomness;
+        uint256 winner = randomResult % stakers.length - 1;
+        currentMinter = stakers[winner];
+        emit NewWinner(currentMinter);
     }
     
     /**
