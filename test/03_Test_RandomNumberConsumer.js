@@ -1,6 +1,8 @@
 
 const { expect } = require("chai");
 
+const hre = require("hardhat");
+
 describe("Random Number Consumer", async function() {
 
     //LINK Token address set to Kovan address. Can get other values at https://docs.chain.link/docs/link-token-contracts
@@ -23,7 +25,7 @@ describe("Random Number Consumer", async function() {
 
     //Now that contract is funded, we can cal the function to do the data request
     await hre.run("request-random-number",{contract: randomNumberConsumer.address,
-                                               seed: "7777"})
+                                               seed: 7777})
 
     //Test the result of the random number request
     let result = await hre.run("read-random-number",{contract: randomNumberConsumer.address});

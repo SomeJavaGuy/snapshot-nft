@@ -1,6 +1,8 @@
 
 const { expect } = require("chai");
 
+const hre = require("hardhat");
+
 describe("API Consumer", async function() {
 
   //LINK Token address set to Kovan address. Can get other values at https://docs.chain.link/docs/link-token-contracts
