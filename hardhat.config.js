@@ -7,6 +7,7 @@ require("@nomiclabs/hardhat-waffle");
 require ("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-web3");
 require("hardhat-deploy");
+require('dotenv').config()
 //import 'hardhat-deploy';
 
 
