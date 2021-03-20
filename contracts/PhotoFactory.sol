@@ -17,7 +17,6 @@ contract PhotoFactory is VRFConsumerBase{
 	address[] public stakers;
 
 	// maps from address => value of tokens
-	mapping(address => bool) public hasStaked;
 	mapping(address => bool) public isStaking;
 
 	bytes32 internal keyHash;
@@ -75,14 +74,13 @@ contract PhotoFactory is VRFConsumerBase{
 		// Checks for payment.
 		require(msg.value >= baseAmount, "amount must equal fee");
 
-		require(!hasStaked[msg.sender], "already staking");
+		require(!isStaking[msg.sender], "already staking");
 
 		//Add user to stakers array iff they haven't staked already
 		stakers.push(msg.sender);
 
 		totalBalance += msg.value;
-
-		hasStaked[msg.sender] = true; 
+ 
 		isStaking[msg.sender] = true;
 	}
 
