@@ -14,17 +14,17 @@ module.exports = async ({
     const VRF_KEYHASH="0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4"
     //const PHOTO_NFT_ADDR = "0x0000000000000000000000000000000000000000"
 
-    const photoNFT = await deploy('PhotoNFT', {
-      from: deployer,
-      gasLimit: 4000000,
-    })
+    // const photoNFT = await deploy('PhotoNFT', {
+    //   from: deployer,
+    //   gasLimit: 4000000,
+    // })
 
     console.log("----------------------------------------------------")
     console.log('Deploying PhotoFactory');
       const photoFactory = await deploy('PhotoFactory', {
       from: deployer,
       gasLimit: 4000000,
-      args: [VRF_COORDINATOR,LINK_TOKEN_ADDR,VRF_KEYHASH,VRF_FEE, photoNFT.address],
+      args: [VRF_COORDINATOR,LINK_TOKEN_ADDR,VRF_KEYHASH,VRF_FEE],
     });
 
     console.log("PhotoFactory deployed to: ", photoFactory.address)

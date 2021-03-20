@@ -7,14 +7,14 @@ import "hardhat/console.sol";
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 //import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
-contract PhotoFactory is VRFConsumerBase {
+contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
     event NewWinner(address winner);
 
-	string public name = "Photo Token Farm";
+	//string public name = "Photo Token Farm";
 	PhotoNFT public photoNFT;
 	address public owner;
-	uint256 public baseAmount = 10 wei;
+	uint256 public baseAmount = 1000000000000000 wei;
 	uint256 public totalBalance;
 	address[] public stakers;
 
@@ -40,8 +40,7 @@ contract PhotoFactory is VRFConsumerBase {
     constructor(address _vrfCoordinator,
                 address _link,
                 bytes32 _keyHash,
-                uint _fee,
-                address _photoNFTAddress) 
+                uint _fee) 
         VRFConsumerBase(
             _vrfCoordinator, // VRF Coordinator
             _link  // LINK Token
@@ -50,7 +49,6 @@ contract PhotoFactory is VRFConsumerBase {
         keyHash = _keyHash;
         fee = _fee;
 		currentMinter = msg.sender;
-        photoNFT = PhotoNFT(_photoNFTAddress);
     }
 
     /*
@@ -60,11 +58,16 @@ contract PhotoFactory is VRFConsumerBase {
 	4. Assign the new minter to the address of the random number
 	5. V2 automatically put it up for auction on opensea
     */
-    function mint(string memory _URL, string memory _title) public {
-    	require(msg.sender == currentMinter);
-    	photoNFT.mint(_URL, _title);
+    function photoMint(string memory _URL, string memory _title) public {
+    	require(msg.sender == currentMinter, "CANNOT MINT");
+		mint(_URL, _title);
         // call get random number
+        require(LINK.balanceOf(address(this)) > fee, "Not enough LINK - fill contract with faucet");
         requestRandomness(keyHash, fee, 42);
+    }
+
+    function getCurrentMinter() public returns(address) {
+    	return currentMinter;
     }
 
     //V2: TODO: automatically put a token up for aution on opensea
@@ -88,6 +91,17 @@ contract PhotoFactory is VRFConsumerBase {
         currentMinter = stakers[winner];
         emit NewWinner(currentMinter);
     }
+
+    //ustakes ETH from the message sender
+    function unstakeETH() public {
+        require(isStaking[msg.sender]);
+        // Remember to zero the pending refund before
+        // sending to prevent re-entrancy attacks
+        msg.sender.transfer(baseAmount);
+        isStaking[msg.sender] = false;
+
+        //Need to handle this
+    }
     
     /**
      * Withdraw LINK from this contract
@@ -102,7 +116,7 @@ contract PhotoFactory is VRFConsumerBase {
 	function stakeETH() public payable {
 
 		// Checks for payment.
-		require(msg.value >= baseAmount, "amount must equal fee");
+		require(msg.value == baseAmount, "amount must equal fee");
 
 		require(!isStaking[msg.sender], "already staking");
 
