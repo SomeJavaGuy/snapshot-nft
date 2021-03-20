@@ -24,11 +24,12 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 	// maps from address => value of tokens
 	mapping(address => bool) public isStaking;
 	mapping(uint256 => bool) public isRequestId;
+    mapping(address => uint256) public addressToStakerId;
 
 	bytes32 internal keyHash;
     uint256 internal fee;
     uint256 public randomResult;
-    
+
     /**
      * Constructor inherits VRFConsumerBase
      * 
@@ -66,7 +67,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
         requestRandomness(keyHash, fee, 42);
     }
 
-    function getCurrentMinter() public returns(address) {
+    function getCurrentMinter() public view returns(address) {
     	return currentMinter;
     }
 
@@ -97,10 +98,22 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
         require(isStaking[msg.sender]);
         // Remember to zero the pending refund before
         // sending to prevent re-entrancy attacks
-        msg.sender.transfer(baseAmount);
         isStaking[msg.sender] = false;
 
-        //Need to handle this
+        // Find where unstaker is in staker array
+        uint256 stakerId = addressToStakerId[msg.sender];
+
+        // remove them from the mapping, and the stakers array
+        delete addressToStakerId[msg.sender];
+        delete stakers[stakerId];
+
+        // move the last element in the list to the gap, and decrement the length
+        address lastStaker = stakers[stakers.length - 1];
+        stakers[stakerId] = lastStaker;
+        stakers.pop();
+        addressToStakerId[lastStaker] = stakerId;
+
+        msg.sender.transfer(baseAmount);
     }
     
     /**
@@ -122,6 +135,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
 		//Add user to stakers array iff they haven't staked already
 		stakers.push(msg.sender);
+        addressToStakerId[msg.sender] = stakers.length - 1;
 
 		totalBalance += msg.value;
  

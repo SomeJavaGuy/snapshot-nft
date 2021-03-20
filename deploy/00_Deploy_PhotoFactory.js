@@ -12,12 +12,6 @@ module.exports = async ({
     const VRF_COORDINATOR="0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9"
     const VRF_FEE="100000000000000000"
     const VRF_KEYHASH="0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4"
-    //const PHOTO_NFT_ADDR = "0x0000000000000000000000000000000000000000"
-
-    // const photoNFT = await deploy('PhotoNFT', {
-    //   from: deployer,
-    //   gasLimit: 4000000,
-    // })
 
     console.log("----------------------------------------------------")
     console.log('Deploying PhotoFactory');
