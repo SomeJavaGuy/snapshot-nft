@@ -48,8 +48,10 @@ describe("PhotoFactory", async function() {
 
   it("It should successfully unstake eth", async function() {
     // call the function to unstake eth
+    let result1 = await photoFactory.isStaking(owner.address)
+    expect(result1).to.be.true
     await hre.run("unstake-eth",{contract: photoFactory.address})
-    let result = await photoFactory.isStaking(owner.address)
-    expect(result).to.be.false
+    let result2 = await photoFactory.isStaking(owner.address)
+    expect(result2).to.be.false
   });
 });

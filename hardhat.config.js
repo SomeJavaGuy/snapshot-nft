@@ -91,7 +91,6 @@ task("fund-link", "Funds a contract with LINK")
     var result = await photoFactoryContract.stakeETH({value: amount}).then(function(transaction) {
       console.log('Contract ', contractAddr, ' funded with .001 ETH. Transaction Hash: ', transaction.hash);
     });
-    console.log(result)
   });
 
   task("unstake-eth", "untakes ETH from PhotoFactory contract")
