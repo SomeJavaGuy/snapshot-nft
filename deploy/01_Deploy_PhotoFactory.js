@@ -7,7 +7,7 @@ module.exports = async ({
     const {deploy} = deployments;
     const {deployer} = await getNamedAccounts()
     
-    //LINK Token address set to Kovan address. Can get other values at https://docs.chain.link/docs/link-token-contracts
+    //LINK Token address set to Kovan address
     const LINK_TOKEN_ADDR="0xa36085F69e2889c224210F603D836748e7dC0088"
     const VRF_COORDINATOR="0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9"
     const VRF_FEE="100000000000000000"
