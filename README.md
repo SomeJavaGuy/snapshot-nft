@@ -23,5 +23,6 @@ npx hardhat stake-eth --contract {contract address from deployment} --amount 0.0
 npx hardhat mint-photo --contract {contract address from deployment} --url {URL of your photo} --title {name your photo!}
 npx hardhat unstake-eth
 ```
+We are working on integrating these actions into a front-end.
 
 You may also need to set your KOVAN_RPC_URL and PRIVATE_KEY environment variables. You can get the RPC URL by creating a free account on infura (https://infura.io/), and you can get the private key from your metamask wallet (or any other wallet) (I'd create a dummy account you only use on testnets).
