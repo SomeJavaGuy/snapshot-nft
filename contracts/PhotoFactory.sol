@@ -1,6 +1,6 @@
 //Contract based on https://docs.openzeppelin.com/contracts/3.x/erc721
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.6;
 
 import "./PhotoNFT.sol";
 import "hardhat/console.sol";
@@ -12,6 +12,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
     event NewWinner(address winner);
     event insufficentFunds(bool staker);
     event photoMinted(bool isStaking, address currentMinter, address sender);
+    event ethWasStaked(address staker, uint256 amount);
 
 	//string public name = "Photo Token Farm";
 	PhotoNFT public photoNFT;
@@ -135,6 +136,8 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 		require(msg.value == baseAmount, "amount must equal fee");
 
 		require(!isStaking[msg.sender], "already staking");
+
+        emit ethWasStaked(msg.sender, msg.value);
 
 		//Add user to stakers array iff they haven't staked already
 		stakers.push(msg.sender);

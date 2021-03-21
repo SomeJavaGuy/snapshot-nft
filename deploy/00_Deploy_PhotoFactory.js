@@ -15,9 +15,10 @@ module.exports = async ({
 
     console.log("----------------------------------------------------")
     console.log('Deploying PhotoFactory');
-      const photoFactory = await deploy('PhotoFactory', {
+    console.log('from: ', deployer)
+    const photoFactory = await deploy('PhotoFactory', {
       from: deployer,
-      gasLimit: 4000000,
+      gasLimit: 10000000,
       args: [VRF_COORDINATOR,LINK_TOKEN_ADDR,VRF_KEYHASH,VRF_FEE],
     });
 
