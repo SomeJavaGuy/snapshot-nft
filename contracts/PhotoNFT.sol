@@ -16,7 +16,7 @@ contract PhotoNFT is ERC721 {
 
   //TODO create the URI and add a base URI function
 
-  function mint(string memory _url, string memory _title) public {
+  function mint(string memory _url, string memory _title) internal {
 
     //add url
     require(!_urlExists[_url]);

@@ -62,10 +62,12 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 	5. V2 automatically put it up for auction on opensea
     */
     function photoMint(string memory _URL, string memory _title) public {
-    	emit photoMinted(isStaking[msg.sender], currentMinter, msg.sender);
     	require(msg.sender == currentMinter, "CANNOT MINT");
-		mint(_URL, _title);
-        // call get random number
+
+        mint(_URL, _title);
+        emit photoMinted(isStaking[msg.sender], currentMinter, msg.sender);
+
+        // Add logic that converts pool ETH to LINK if insufficient funds
         require(LINK.balanceOf(address(this)) > fee, "Not enough LINK - fill contract with faucet");
         requestRandomness(keyHash, fee, 42);
     }
@@ -81,7 +83,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
      /** 
      * Requests randomness from a user-provided seed
      */
-    function getRandomNumber(uint256 userProvidedSeed) public returns (bytes32 requestId) {
+    function getRandomNumber(uint256 userProvidedSeed) private returns (bytes32 requestId) {
         require(LINK.balanceOf(address(this)) > fee, "Not enough LINK - fill contract with faucet");
         return requestRandomness(keyHash, fee, userProvidedSeed);
     }
@@ -136,25 +138,4 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
         msg.sender.transfer(baseAmount);
     }
-
-    /**
-     * Withdraw LINK from this contract
-     * 
-     * DO NOT USE THIS IN PRODUCTION AS IT CAN BE CALLED BY ANY ADDRESS.
-     * THIS IS PURELY FOR EXAMPLE PURPOSES.
-     */
-    function withdrawLink() external {
-        require(LINK.transfer(msg.sender, LINK.balanceOf(address(this))), "Unable to transfer");
-    }
-
-	//pseudorandom number
-	uint nonce = 0;
-	function psuedoRandNum() private returns (uint) {
-		uint randomnumber = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))) % stakers.length;
-		randomnumber = randomnumber;
-		nonce++;        
-		return randomnumber;
-	}
-
-
 }
