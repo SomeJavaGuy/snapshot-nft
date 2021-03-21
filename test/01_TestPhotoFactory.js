@@ -29,13 +29,15 @@ describe("PhotoFactory", async function() {
   });
 
   it("It should successfully stake eth", async function() {
+    this.timeout(0)
     //Before we can do a VRF request, we need to fund it with LINK
     await hre.run("fund-link",{contract: photoFactory.address})
 
     //Now that contract is funded, we can call the function to stake eth
     await hre.run("stake-eth",{contract: photoFactory.address})
-    let result = await photoFactory.isStaking(owner.address)    
-    expect(result).to.be.true
+    var result = await photoFactory.isStaking(owner.address).then(function(data) {
+      expect(data).to.be.true
+    });
   });
 
   it("It should successfully mint a photo", async function() {
@@ -47,11 +49,14 @@ describe("PhotoFactory", async function() {
   });
 
   it("It should successfully unstake eth", async function() {
+    this.timeout(0)
     // call the function to unstake eth
-    let result1 = await photoFactory.isStaking(owner.address)
-    expect(result1).to.be.true
+    var result1 = await photoFactory.isStaking(owner.address).then(function(data) {
+      expect(data).to.be.true
+    }); 
     await hre.run("unstake-eth",{contract: photoFactory.address})
-    let result2 = await photoFactory.isStaking(owner.address)
-    expect(result2).to.be.false
+    var result2 = await photoFactory.isStaking(owner.address).then(function(data) {
+      expect(data).to.be.false
+    }); 
   });
 });
