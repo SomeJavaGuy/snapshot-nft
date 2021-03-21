@@ -117,7 +117,7 @@ task("fund-link", "Funds a contract with LINK")
     const accounts = await hre.ethers.getSigners();
     const signer = accounts[0];
 
-    const amount = 100000000000000;
+    const amount = 1000000000000000;
 
     //Create connection to API Consumer Contract and call the createRequestTo function
     const photoFactoryContract = new ethers.Contract(contractAddr, PHOTO_FACTORY_ABI, signer);
@@ -147,7 +147,7 @@ task("fund-link", "Funds a contract with LINK")
       const accounts = await hre.ethers.getSigners();
       const signer = accounts[0];
 
-      const amount = 100000000000000;
+      const amount = 1000000000000000;
 
       //Create connection to API Consumer Contract and call the createRequestTo function
       const photoFactoryContract =  new ethers.Contract(contractAddr, PHOTO_FACTORY_ABI, signer);
