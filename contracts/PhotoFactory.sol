@@ -10,6 +10,8 @@ import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
     event NewWinner(address winner);
+    event insufficentFunds(bool staker);
+    event photoMinted(bool isStaking, address currentMinter, address sender);
 
 	//string public name = "Photo Token Farm";
 	PhotoNFT public photoNFT;
@@ -60,6 +62,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 	5. V2 automatically put it up for auction on opensea
     */
     function photoMint(string memory _URL, string memory _title) public {
+    	emit photoMinted(isStaking[msg.sender], currentMinter, msg.sender);
     	require(msg.sender == currentMinter, "CANNOT MINT");
 		mint(_URL, _title);
         // call get random number
