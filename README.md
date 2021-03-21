@@ -1,4 +1,4 @@
-### hackathon project for ETHGlobal NFTHack
+### hackathon project
 playing around with some non-fungies
 
 ### Project Details
