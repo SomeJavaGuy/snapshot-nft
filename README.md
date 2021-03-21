@@ -1,7 +1,7 @@
-#### hackathon project
+### hackathon project
 playing around with some non-fungies
 
-#### details
+### details
 
 What's more decentralized than an NFT collection for which each minter is selected at random?
 
