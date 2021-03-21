@@ -33,7 +33,7 @@ describe("PhotoFactory", async function() {
     await hre.run("fund-link",{contract: photoFactory.address})
 
     //Now that contract is funded, we can call the function to stake eth
-    await hre.run("stake-eth",{contract: photoFactory.address, amount: web3.utils.toWei("0.001")})
+    await hre.run("stake-eth",{contract: photoFactory.address})
     let result = await photoFactory.isStaking(owner.address)    
     expect(result).to.be.true
   });
@@ -42,14 +42,14 @@ describe("PhotoFactory", async function() {
     this.timeout(0)
     //Now that the contract deployer is the "currentMinter" we can mint an NFT to kick off the chain
     await hre.run("mint-photo",{contract: photoFactory.address, url: "https://www.myfirstNFT.xyz", title: "I hope this works"})
-    let result = await photoFactory.ownerOf(0)    
+    let result = await photoFactory.ownerOf(0)
     expect(result).to.equal(owner.address)
   });
 
   it("It should successfully unstake eth", async function() {
     // call the function to unstake eth
-    await hre.run("unstake-eth",{contract: photoFactory.address, from: addr1})
-    let result = await photoFactory.isStaking()
+    await hre.run("unstake-eth",{contract: photoFactory.address})
+    let result = await photoFactory.isStaking(owner.address)
     expect(result).to.be.false
   });
 });

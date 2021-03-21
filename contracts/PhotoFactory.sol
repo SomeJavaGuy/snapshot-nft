@@ -96,6 +96,24 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
         emit NewWinner(currentMinter);
     }
 
+    function stakeETH() public payable {
+
+		// Checks for payment.
+		require(msg.value == baseAmount, "amount must equal fee");
+
+		require(!isStaking[msg.sender], "already staking");
+
+        emit ethWasStaked(msg.sender, msg.value);
+
+		//Add user to stakers array iff they haven't staked already
+		stakers.push(msg.sender);
+        addressToStakerId[msg.sender] = stakers.length - 1;
+
+		totalBalance += msg.value;
+ 
+		isStaking[msg.sender] = true;
+	}
+
     //ustakes ETH from the message sender
     function unstakeETH() public {
         require(isStaking[msg.sender]);
@@ -118,7 +136,7 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
         msg.sender.transfer(baseAmount);
     }
-    
+
     /**
      * Withdraw LINK from this contract
      * 
@@ -128,24 +146,6 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
     function withdrawLink() external {
         require(LINK.transfer(msg.sender, LINK.balanceOf(address(this))), "Unable to transfer");
     }
-
-	function stakeETH() public payable {
-
-		// Checks for payment.
-		require(msg.value == baseAmount, "amount must equal fee");
-
-		require(!isStaking[msg.sender], "already staking");
-
-        emit ethWasStaked(msg.sender, msg.value);
-
-		//Add user to stakers array iff they haven't staked already
-		stakers.push(msg.sender);
-        addressToStakerId[msg.sender] = stakers.length - 1;
-
-		totalBalance += msg.value;
- 
-		isStaking[msg.sender] = true;
-	}
 
 	//pseudorandom number
 	uint nonce = 0;

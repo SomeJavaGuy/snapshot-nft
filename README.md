@@ -19,7 +19,7 @@ Or, run the following to deploy and interact directly with the contract
 ```
 npx hardhat deploy
 npx hardhat fund-link --contract {contract address from deployment}
-npx hardhat stake-eth --contract {contract address from deployment} --amount 0.001
+npx hardhat stake-eth --contract {contract address from deployment}
 npx hardhat mint-photo --contract {contract address from deployment} --url {URL of your photo} --title {name your photo!}
 npx hardhat unstake-eth
 ```
