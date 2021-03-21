@@ -5,7 +5,6 @@ pragma solidity ^0.6.6;
 import "./PhotoNFT.sol";
 import "hardhat/console.sol";
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
-//import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
 contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
