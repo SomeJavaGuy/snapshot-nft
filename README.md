@@ -15,11 +15,13 @@ yarn && yarn test
 ```
 and see what happens!
 
-Or, run
+Or, run the following to deploy and interact directly with the contract
 ```
 npx hardhat deploy
-npx hardhat fund-link --contract {contract address from deployment output}
-npx hardhat stake-eth --contract {contract address from deployment output} --amount 0.001
-npx hardhat mint-photo --contract {contract address from deployment output} --url {URL of your photo} --title {name your photo!}
+npx hardhat fund-link --contract {contract address from deployment}
+npx hardhat stake-eth --contract {contract address from deployment} --amount 0.001
+npx hardhat mint-photo --contract {contract address from deployment} --url {URL of your photo} --title {name your photo!}
 npx hardhat unstake-eth
 ```
+
+You may also need to set your KOVAN_RPC_URL and PRIVATE_KEY environment variables. You can get the RPC URL by creating a free account on infura (https://infura.io/), and you can get the private key from your metamask wallet (or any other wallet) (I'd create a dummy account you only use on testnets).
