@@ -1,10 +1,8 @@
 ### hackathon project for ETHGlobal NFTHack
 playing around with some non-fungies
 
-### Functionality
+### Project Details
 
-Participants stake a small amount of ETH to join the pool. Each day, 1 participant is selected as the lottery winner, and this person has the opportunity to take a snapshot/photo of their day and mint it as an NFT. 
+What's more decentralized than an NFT collection for which each minter is selected at random?
 
-### Details
-
-Lottery winner is selected via chainlink's verified random function
+ This is a lottery game where 1 participant is randomly selected each day to take a photograph of their life taken on that day, which is minted as an NFT and added to the project's collection. 
