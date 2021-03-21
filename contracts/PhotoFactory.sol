@@ -78,7 +78,6 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
 
     //V2: TODO: automatically put a token up for aution on opensea
     // function auction(address _tokenAddress) {}
-
     /**
      * Callback function used by VRF Coordinator
      */
@@ -130,3 +129,4 @@ contract PhotoFactory is VRFConsumerBase, PhotoNFT {
         msg.sender.transfer(baseAmount);
     }
 }
+
